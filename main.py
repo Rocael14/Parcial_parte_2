@@ -5,6 +5,8 @@ class Producto:
         self.precio = precio
         self.cantidad = cantidad
 
+    def listar(self):
+        print(f"{self.id_producto} - {self.nombre} - Q{self.precio} - {self.cantidad}")
 
 class Cliente:
     def __init__(self, id_cliente, nombre):
@@ -19,6 +21,14 @@ class Factura:
 class Guardar:
     def guardar(self):
         print("Guardando...")
+
+class Notificaciones:
+    def __init__(self, tipo_notificacion, mensaje):
+        self.tipo_notifcacion = tipo_notificacion
+        self.mensaje = mensaje
+    def notificar(self):
+        print(f"{self.tipo_notifcacion}:")
+        print(self.mensaje)
 
 
 class Agregar:
@@ -38,27 +48,59 @@ class AgregarProducto(Agregar):
         diccionario_producto[id_producto] = {producto}
 
 
+class AgregarCliente(Agregar):
+    def agregar(self, nit):
+        diccionario_cliente = {}
+        id_cliente = nit
+        nombre_cliente = input("Ingresa el nombre del cliente: ")
+        cliente = Cliente(id_cliente, nombre_cliente)
+        diccionario_cliente[id_cliente] = cliente
+        print("Cliente Agregado Exitosamente")
 
 
+class AgregarVenta(Agregar):
+    def agregar(self):
+        agregar_cliente = AgregarCliente()
+        print("--- Realizar Venta ---")
+        id_cliente = input("Nit del cliente o CF:").upper()
+        if id_cliente == "CF":
+            nombre_cliente = input("Ingrese el nombre del cliente: ")
+        elif id_cliente != "CF":
+            agregar_cliente.agregar(id_cliente)
+
+        id_producto = input("Ingrese el id del producto: ")
+        cantidad_producto = int(input("Ingrese la cantidad a llevar del producto: "))
+        while True:
+            seleccion_estado_pedido = int(input("Seleccione el estado del pedido (1.Normal o 2.Urgente): "))
+            if seleccion_estado_pedido == 1:
+                estado = "Normal"
+                break
+            elif seleccion_estado_pedido == 2:
+                estado = "Urgente"
+                break
+            else:
+                print("Seleccione un estado de pedido valido")
 
 def Menu():
     print("--- Menu ---")
     print("1. Agregar Productos")
     print("2. Lista de Productos")
-    print("4. Realizar Venta")
-    print("5. Salir")
+    print("3. Realizar Venta")
+    print("4. Salir")
 
 agregar_producto = AgregarProducto()
+agregar_venta = AgregarVenta()
 while True:
+    #Aqui tendria que ir la notificaciones en dado caso exista un prodcuto con estado de URGENCIA!!!
     Menu()
     try:
-        opciones = int(input("Seleccione una opcion"))
+        opciones = int(input("Seleccione una opcion: "))
         if opciones == 1:
             agregar_producto.agregar()
         elif opciones == 2:
-            print("Lista de Productos")
+            print("Listar")
         elif opciones ==3:
-            print("Realizar Venta")
+            agregar_venta.agregar()
         elif opciones == 4:
             print("Gracias por utilizar el programa")
             break
