@@ -30,6 +30,10 @@ class Notificaciones:
         print(f"{self.tipo_notifcacion}:")
         print(self.mensaje)
 
+class NotificacionUrgencia:
+    def notificar(self):
+        print("Urgencia")
+        print("Pedidos atrasados")
 
 class Agregar:
     def agregar(self):
@@ -86,12 +90,15 @@ def Menu():
     print("1. Agregar Productos")
     print("2. Lista de Productos")
     print("3. Realizar Venta")
-    print("4. Salir")
+    print("4. Cambiar Notificacion")
+    print("5. Salir")
 
 agregar_producto = AgregarProducto()
 agregar_venta = AgregarVenta()
+notificar_urgencia =NotificacionUrgencia()
 while True:
     #Aqui tendria que ir la notificaciones en dado caso exista un prodcuto con estado de URGENCIA!!!
+    notificar_urgencia.notificar()
     Menu()
     try:
         opciones = int(input("Seleccione una opcion: "))
@@ -102,6 +109,8 @@ while True:
         elif opciones ==3:
             agregar_venta.agregar()
         elif opciones == 4:
+            print("Notificacion")
+        elif opciones == 5:
             print("Gracias por utilizar el programa")
             break
         else:
